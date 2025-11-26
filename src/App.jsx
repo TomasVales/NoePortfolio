@@ -82,7 +82,7 @@ const DATA = {
       titulo: "Postbásica de Terapia Intensiva Pediátrica",
       institucion: "Sociedad Argentina de Terapia Intensiva (S.A.T.I)",
       year: "2010 - 2011",
-      nota: "Cursado Completo (Examen Final Pendiente)"
+      nota: "Incompleto"
     },
     {
       titulo: "Residencia Completa de Pediatría",
