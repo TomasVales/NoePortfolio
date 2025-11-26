@@ -20,12 +20,12 @@ import {
   FileText
 } from 'lucide-react';
 
-// --- DATOS COMPLETOS DEL CV (Extraídos del PDF) ---
+// --- DATOS COMPLETOS DEL CV ---
 const DATA = {
   nombre: "Dra. Noelia Altamirano",
   titulo: "Médica Especialista en Pediatría",
-  subtitulo: "Especialista en Terapia Intensiva Infantil & Alta Complejidad",
-  matricula: "MP 11111 | MN 22222", // Completar con números reales si los tienes
+  subtitulo: "Pediatría • Terapia Intensiva Infantil • Alta Complejidad",
+  matricula: "MP 11111 | MN 22222", 
   contacto: {
     telefono: "15-6365-7651",
     email: "noula26.4@hotmail.com",
@@ -69,6 +69,11 @@ const DATA = {
   
   formacion: [
     {
+      titulo: "Curso Superior Anual de Dermatología Pediátrica",
+      institucion: "Hospital de Niños Ricardo Gutiérrez (HNRG)",
+      year: "2024"
+    },
+    {
       titulo: "Especialista en Clínica Pediátrica",
       institucion: "Curso Superior de Pediatría (Colegio de Médicos II / Min. Salud)",
       year: "2012 - 2014"
@@ -76,7 +81,8 @@ const DATA = {
     {
       titulo: "Postbásica de Terapia Intensiva Pediátrica",
       institucion: "Sociedad Argentina de Terapia Intensiva (S.A.T.I)",
-      year: "2010 - 2011"
+      year: "2010 - 2011",
+      nota: "Incompleto"
     },
     {
       titulo: "Residencia Completa de Pediatría",
@@ -91,11 +97,10 @@ const DATA = {
     }
   ],
 
-  // Cursos organizados por categorías para mejor visualización
   cursosCategorizados: {
     "Dermatología Infantil": [
+      "XXXII Curso Superior Anual de Dermatología - H.N.R.G (2024)", 
       "Curso Superior Anual de Dermatología Infantil - Hospital Gutiérrez (2023)",
-      "XXXI Curso Superior Anual de Dermatología - H.N.R.G (2023)",
       "XVIII Jornada de Dermatología en lenguaje pediátrico (Marzo 2023)"
     ],
     "Adolescencia y Prevención (SAP)": [
@@ -136,7 +141,7 @@ const DATA = {
   idiomas: [
     { idioma: "Español", nivel: "Nativo" },
     { idioma: "Francés", nivel: "Avanzado" },
-    { idioma: "Inglés", nivel: "Básico" } // Ajustado según interpretación estándar del CV
+    { idioma: "Inglés", nivel: "Básico" }
   ],
   
   informatica: "Office II Intermedio"
@@ -145,19 +150,19 @@ const DATA = {
 // --- COMPONENTES UI ---
 
 const SectionHeader = ({ title, subtitle, align = "center", light = false }) => (
-  <div className={`mb-16 ${align === "center" ? "text-center" : "text-left"}`}>
-    <h3 className={`text-sm font-bold tracking-widest uppercase mb-3 ${light ? "text-amber-400" : "text-amber-600"}`}>
+  <div className={`mb-12 md:mb-16 ${align === "center" ? "text-center" : "text-left"}`}>
+    <h3 className={`text-xs md:text-sm font-bold tracking-widest uppercase mb-3 ${light ? "text-amber-400" : "text-amber-600"}`}>
       {subtitle}
     </h3>
     <h2 className={`text-3xl md:text-4xl font-serif leading-tight ${light ? "text-white" : "text-emerald-950"}`}>
       {title}
     </h2>
-    <div className={`h-1 w-24 bg-amber-500 mt-6 ${align === "center" ? "mx-auto" : ""}`}></div>
+    <div className={`h-1 w-20 md:w-24 bg-amber-500 mt-4 md:mt-6 ${align === "center" ? "mx-auto" : ""}`}></div>
   </div>
 );
 
 const Card = ({ children, className = "" }) => (
-  <div className={`bg-white p-8 rounded-sm border border-stone-200 shadow-sm hover:shadow-lg transition-all duration-300 ${className}`}>
+  <div className={`p-6 md:p-8 rounded-sm border border-stone-200 shadow-sm hover:shadow-lg transition-all duration-300 ${className}`}>
     {children}
   </div>
 );
@@ -166,15 +171,17 @@ const Card = ({ children, className = "" }) => (
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const whatsappLink = "https://wa.me/5491163657651?text=Hola%20Dra.%20Altamirano,%20quisiera%20solicitar%20un%20turno.";
+
   return (
-    <nav className="bg-white border-b border-stone-100 py-4 sticky top-0 z-50">
+    <nav className="bg-white border-b border-stone-100 py-4 sticky top-0 z-50 shadow-sm">
       <div className="container mx-auto px-6 flex justify-between items-center">
         <div className="flex items-center gap-2">
           <div className="bg-emerald-900 p-2 rounded text-white">
             <Activity size={20} />
           </div>
           <div>
-            <span className="text-xl font-serif text-emerald-950 block leading-none">Dra. Altamirano</span>
+            <span className="text-lg md:text-xl font-serif text-emerald-950 block leading-none">Dra. Altamirano</span>
             <span className="text-[10px] text-stone-500 uppercase tracking-widest">Pediatría & Intensiva</span>
           </div>
         </div>
@@ -185,127 +192,157 @@ const Navbar = () => {
           ))}
         </div>
         
-        <a href="#contacto" className="hidden md:block bg-emerald-900 text-white px-6 py-2.5 text-sm font-medium hover:bg-emerald-800 transition rounded-sm">
+        <a 
+          href={whatsappLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hidden md:block bg-emerald-900 text-white px-6 py-2.5 text-sm font-medium hover:bg-emerald-800 transition rounded-sm"
+        >
           Pedir Turno
         </a>
 
-        <button className="md:hidden text-stone-600" onClick={() => setIsOpen(!isOpen)}>
-          {isOpen ? <X /> : <Menu />}
+        <button className="md:hidden text-stone-600 p-2" onClick={() => setIsOpen(!isOpen)}>
+          {isOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
       </div>
       
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden bg-stone-50 border-t border-stone-200 absolute w-full p-4 flex flex-col space-y-4 shadow-lg">
-          {['Inicio', 'Perfil', 'Servicios', 'Trayectoria', 'Contacto'].map((item) => (
-            <a key={item} href={`#${item.toLowerCase()}`} onClick={() => setIsOpen(false)} className="text-stone-600 font-medium">
-              {item}
+        <div className="md:hidden bg-white border-t border-stone-200 absolute w-full left-0 top-full shadow-xl z-50 animate-fade-in-down">
+          <div className="flex flex-col p-6 space-y-4">
+            {['Inicio', 'Perfil', 'Servicios', 'Trayectoria', 'Contacto'].map((item) => (
+              <a 
+                key={item} 
+                href={`#${item.toLowerCase()}`} 
+                onClick={() => setIsOpen(false)} 
+                className="text-stone-600 font-medium text-lg border-b border-stone-50 pb-2"
+              >
+                {item}
+              </a>
+            ))}
+            <a 
+              href={whatsappLink} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="bg-emerald-900 text-white text-center py-3 rounded font-medium mt-4"
+            >
+               Pedir Turno (WhatsApp)
             </a>
-          ))}
+          </div>
         </div>
       )}
     </nav>
   );
 };
 
-const Hero = () => (
-  <section id="inicio" className="relative bg-emerald-950 text-white min-h-screen flex items-center justify-center overflow-hidden">
-    
-    {/* Fondo Abstracto */}
-    <div className="absolute top-0 right-0 w-2/3 h-full bg-emerald-900/20 skew-x-12 translate-x-20"></div>
-    <div className="absolute bottom-0 left-0 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl"></div>
+const Hero = () => {
+  const whatsappLink = "https://wa.me/5491163657651?text=Hola%20Dra.%20Altamirano,%20quisiera%20solicitar%20un%20turno.";
 
-    <div className="container mx-auto px-6 relative z-10 grid md:grid-cols-2 gap-12 items-center -mt-32">
+  return (
+    <section id="inicio" className="relative bg-emerald-950 text-white min-h-screen flex items-center justify-center overflow-hidden pt-12 md:pt-0">
       
-      {/* Columna Izquierda: Textos */}
-      <div className="space-y-8 animate-fade-in-up">
-        <div className="inline-flex items-center gap-2 px-3 py-1 border border-amber-500/50 rounded-full bg-amber-500/10 text-amber-400 text-xs font-bold tracking-widest uppercase">
-          <Star size={12} /> Excelencia Médica
-        </div>
-        
-        <h1 className="text-5xl md:text-7xl font-serif leading-tight">
-          Cuidando el futuro <br/>
-          <span className="text-amber-500 italic">con experiencia.</span>
-        </h1>
-        
-        {/* TEXTO NUEVO: Reformulado para ser humano y elegante */}
-        <div className="relative max-w-lg">
-          <span className="absolute -top-4 -left-2 text-6xl text-amber-500/20 font-serif">"</span>
-          <p className="text-emerald-50 text-lg leading-relaxed border-l-2 border-amber-500 pl-6 font-light italic">
-            Soy responsable, empática y dedicada. Mi labor se basa en la <strong className="text-amber-400 font-normal">honestidad</strong> y el trabajo en equipo, impulsada siempre por el deseo de prosperar académicamente para brindar lo mejor a mis pacientes.
-          </p>
-        </div>
-        
-        <div className="flex flex-col sm:flex-row gap-4 pt-4">
-          <a href="#contacto" className="bg-amber-600 hover:bg-amber-700 text-white px-8 py-4 text-center font-medium transition shadow-lg rounded-sm hover:-translate-y-1 transform duration-300">
-            Agendar Consulta
-          </a>
-          <a href="#trayectoria" className="border border-white/20 hover:bg-white/10 text-white px-8 py-4 text-center font-medium transition rounded-sm">
-            Ver Credenciales
-          </a>
-        </div>
-      </div>
+      {/* Fondo Abstracto */}
+      <div className="absolute top-0 right-0 w-2/3 h-full bg-emerald-900/20 skew-x-12 translate-x-20"></div>
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl"></div>
 
-      {/* Columna Derecha: Tarjeta de Perfil (SIN MATRÍCULA) */}
-      <div className="flex justify-center md:justify-end">
-        <div className="relative bg-white/5 backdrop-blur-md border border-white/10 p-8 md:p-12 max-w-md w-full rounded-sm shadow-2xl">
-          {/* Detalles decorativos */}
-          <div className="absolute -top-4 -right-4 w-20 h-20 border-t-4 border-r-4 border-amber-500 rounded-tr-3xl"></div>
-          <div className="absolute -bottom-4 -left-4 w-20 h-20 border-b-4 border-l-4 border-amber-500 rounded-bl-3xl"></div>
+      {/* AJUSTE RESPONSIVE: 
+         - 'pt-10 md:pt-0': En móvil agrega padding arriba para no chocar con el menú.
+         - '-mt-0 md:-mt-32': En móvil quita el margen negativo, en escritorio lo mantiene para centrar.
+      */}
+      <div className="container mx-auto px-6 relative z-10 grid md:grid-cols-2 gap-12 items-center mt-0 md:-mt-32 pb-20 md:pb-0">
+        
+        {/* Columna Izquierda */}
+        <div className="space-y-6 md:space-y-8 animate-fade-in-up text-center md:text-left">
+          <div className="inline-flex items-center gap-2 px-3 py-1 border border-amber-500/50 rounded-full bg-amber-500/10 text-amber-400 text-xs font-bold tracking-widest uppercase">
+            <Star size={12} /> Excelencia Médica
+          </div>
           
-          <h3 className="text-amber-500 text-sm font-bold tracking-widest uppercase mb-2">Perfil Profesional</h3>
-          <h2 className="text-3xl font-serif text-white mb-6">Dra. Noelia Altamirano</h2>
+          <h1 className="text-4xl md:text-7xl font-serif leading-tight">
+            Cuidando el futuro <br/>
+            <span className="text-amber-500 italic">con experiencia.</span>
+          </h1>
           
-          <ul className="space-y-4 text-emerald-100">
-            <li className="flex items-start gap-3">
-              <Activity className="shrink-0 text-amber-500 mt-1" size={20} />
-              <span className="text-sm">Médica de Planta Hospital El Cruce (Alta Complejidad)</span>
-            </li>
-            <li className="flex items-start gap-3">
-              <Brain className="shrink-0 text-amber-500 mt-1" size={20} />
-              <span className="text-sm">Espec. Terapia Intensiva Pediátrica (S.A.T.I)</span>
-            </li>
-            <li className="flex items-start gap-3">
-              <GraduationCap className="shrink-0 text-amber-500 mt-1" size={20} />
-              <span className="text-sm">Egresada U.N.L.P (2004)</span>
-            </li>
-          </ul>
+          <div className="relative max-w-lg mx-auto md:mx-0">
+            <span className="hidden md:block absolute -top-4 -left-2 text-6xl text-amber-500/20 font-serif">"</span>
+            <p className="text-emerald-50 text-base md:text-lg leading-relaxed md:border-l-2 md:border-amber-500 md:pl-6 font-light italic">
+              Soy responsable, empática y dedicada. Mi labor se basa en la <strong className="text-amber-400 font-normal">honestidad</strong> y el trabajo en equipo, impulsada siempre por el deseo de prosperar académicamente para brindar lo mejor a mis pacientes.
+            </p>
+          </div>
+          
+          <div className="flex flex-col sm:flex-row gap-4 pt-4 justify-center md:justify-start">
+            <a 
+              href={whatsappLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-amber-600 hover:bg-amber-700 text-white px-8 py-4 text-center font-medium transition shadow-lg rounded-sm hover:-translate-y-1 transform duration-300"
+            >
+              Agendar Consulta
+            </a>
+            <a href="#trayectoria" className="border border-white/20 hover:bg-white/10 text-white px-8 py-4 text-center font-medium transition rounded-sm">
+              Ver Credenciales
+            </a>
+          </div>
+        </div>
 
-          {/* Footer de la tarjeta simplificado (Solo icono de verificación) */}
-          <div className="mt-8 pt-8 border-t border-white/10 flex justify-end items-center">
-             <div className="flex items-center gap-2 text-emerald-200/50 text-xs uppercase tracking-widest">
-                <span>Verificado</span>
-                <ShieldCheck className="text-amber-500" size={24} />
-             </div>
+        {/* Columna Derecha: Tarjeta de Perfil */}
+        <div className="flex justify-center md:justify-end">
+          <div className="relative bg-white/5 backdrop-blur-md border border-white/10 p-6 md:p-12 max-w-md w-full rounded-sm shadow-2xl">
+            {/* Detalles decorativos */}
+            <div className="absolute -top-4 -right-4 w-20 h-20 border-t-4 border-r-4 border-amber-500 rounded-tr-3xl"></div>
+            <div className="absolute -bottom-4 -left-4 w-20 h-20 border-b-4 border-l-4 border-amber-500 rounded-bl-3xl"></div>
+            
+            <h3 className="text-amber-500 text-xs md:text-sm font-bold tracking-widest uppercase mb-2">Perfil Profesional</h3>
+            <h2 className="text-2xl md:text-3xl font-serif text-white mb-6">Dra. Noelia Altamirano</h2>
+            
+            <ul className="space-y-4 text-emerald-100 text-sm md:text-base">
+              <li className="flex items-start gap-3">
+                <Activity className="shrink-0 text-amber-500 mt-1" size={20} />
+                <span>Médica de Planta Hospital El Cruce (Alta Complejidad)</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <Brain className="shrink-0 text-amber-500 mt-1" size={20} />
+                <span>Especialista en Clínica Pediátrica (Col. Médicos / Min. Salud)</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <GraduationCap className="shrink-0 text-amber-500 mt-1" size={20} />
+                <span>Egresada U.N.L.P (2004)</span>
+              </li>
+            </ul>
+
+            <div className="mt-8 pt-8 border-t border-white/10 flex justify-end items-center">
+               <div className="flex items-center gap-2 text-emerald-200/50 text-xs uppercase tracking-widest">
+                  <span>Verificado</span>
+                  <ShieldCheck className="text-amber-500" size={24} />
+               </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    {/* Flecha Scroll */}
-    <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce hidden md:block z-20">
-      <a href="#perfil" className="text-emerald-100/50 hover:text-white transition cursor-pointer">
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-        </svg>
-      </a>
-    </div>
-  </section>
-);
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce hidden md:block z-20">
+        <a href="#perfil" className="text-emerald-100/50 hover:text-white transition cursor-pointer">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
+        </a>
+      </div>
+    </section>
+  );
+};
 
 const About = () => (
-  <section id="perfil" className="py-24 bg-stone-50">
+  <section id="perfil" className="py-16 md:py-24 bg-stone-50">
     <div className="container mx-auto px-6">
       <div className="max-w-4xl mx-auto">
         <SectionHeader subtitle="Filosofía de Trabajo" title="Vocación, Empatía y Rigor Científico" />
         
-        <div className="bg-white p-10 shadow-xl shadow-stone-200/50 border-t-4 border-emerald-900 rounded-sm">
+        <div className="bg-white p-6 md:p-10 shadow-xl shadow-stone-200/50 border-t-4 border-emerald-900 rounded-sm">
           <div className="flex flex-col md:flex-row gap-10 items-start">
              <div className="flex-1">
-                <p className="text-lg text-stone-700 leading-relaxed font-serif italic mb-6">
+                <p className="text-base md:text-lg text-stone-700 leading-relaxed font-serif italic mb-6">
                   "{DATA.perfil}"
                 </p>
-                <div className="grid grid-cols-2 gap-4 mb-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
                   {['Responsabilidad', 'Empatía', 'Honestidad', 'Dedicación', 'Trabajo en Equipo', 'Superación'].map(skill => (
                     <div key={skill} className="flex items-center gap-2 text-emerald-800 font-medium text-sm">
                       <div className="w-2 h-2 bg-amber-500 rounded-full"></div> {skill}
@@ -338,7 +375,7 @@ const About = () => (
 );
 
 const Services = () => (
-  <section id="servicios" className="py-24 bg-white">
+  <section id="servicios" className="py-16 md:py-24 bg-white">
     <div className="container mx-auto px-6">
       <SectionHeader subtitle="Áreas de Atención" title="Cuidado Integral de la Salud Infantil" />
       
@@ -354,7 +391,7 @@ const Services = () => (
           </p>
         </Card>
 
-        {/* Card 2: AHORA IGUAL A LAS OTRAS (Fondo blanco, borde naranja, textos oscuros) */}
+        {/* Card 2 */}
         <Card className="bg-white border-t-4 border-t-amber-500">
           <div className="w-14 h-14 bg-emerald-50 rounded-full flex items-center justify-center mb-6 text-emerald-800">
             <Baby size={28} />
@@ -389,23 +426,24 @@ const Services = () => (
 );
 
 const Resume = () => (
-  <section id="trayectoria" className="py-24 bg-stone-100">
+  <section id="trayectoria" className="py-16 md:py-24 bg-stone-100">
     <div className="container mx-auto px-6 max-w-6xl">
-      <SectionHeader title="Trayectoria Académica y Laboral" />
+      <SectionHeader subtitle="Currículum Vitae" title="Trayectoria Académica y Laboral" />
       
       <div className="grid lg:grid-cols-2 gap-16">
         
-        {/* COLUMNA IZQUIERDA: Experiencia y Educación Formal */}
+        {/* COLUMNA IZQUIERDA */}
         <div className="space-y-12">
-          {/* Experiencia Laboral */}
           <div>
             <h3 className="flex items-center gap-3 text-xl font-bold text-emerald-900 mb-8 pb-4 border-b border-emerald-200">
               <Stethoscope className="text-amber-600" /> Experiencia Profesional
             </h3>
-            <div className="space-y-8 border-l-2 border-emerald-200 ml-3 pl-8 relative">
+            {/* Ajuste responsive para la línea de tiempo: pl-4 en móvil, pl-8 en desktop */}
+            <div className="space-y-8 border-l-2 border-emerald-200 ml-2 md:ml-3 pl-6 md:pl-8 relative">
               {DATA.experiencia.map((item, idx) => (
                 <div key={idx} className="relative">
-                  <span className="absolute -left-[39px] top-1 w-5 h-5 bg-emerald-900 rounded-full border-4 border-stone-100"></span>
+                  {/* Ajuste de la posición del punto para que no se corte */}
+                  <span className="absolute -left-[31px] md:-left-[39px] top-1 w-4 h-4 md:w-5 md:h-5 bg-emerald-900 rounded-full border-4 border-stone-100"></span>
                   <span className="text-xs font-bold text-amber-600 uppercase tracking-wider">{item.periodo}</span>
                   <h4 className="text-lg font-bold text-stone-800 mt-1">{item.rol}</h4>
                   <p className="text-emerald-800 font-medium text-sm">{item.lugar}</p>
@@ -415,7 +453,6 @@ const Resume = () => (
             </div>
           </div>
 
-          {/* Educación Formal */}
           <div>
             <h3 className="flex items-center gap-3 text-xl font-bold text-emerald-900 mb-8 pb-4 border-b border-emerald-200">
               <GraduationCap className="text-amber-600" /> Formación Académica
@@ -428,14 +465,14 @@ const Resume = () => (
                      <span className="text-xs bg-stone-100 px-3 py-1 rounded-full text-stone-600 font-mono whitespace-nowrap">{item.year}</span>
                   </div>
                   <p className="text-emerald-700 font-medium text-sm">{item.institucion}</p>
-                  {item.nota && <p className="text-stone-500 text-xs mt-2 italic">{item.nota}</p>}
+                  {item.nota && <p className="text-amber-600 text-xs mt-2 font-medium italic border-t border-stone-100 pt-2">{item.nota}</p>}
                 </div>
               ))}
             </div>
           </div>
         </div>
 
-        {/* COLUMNA DERECHA: Cursos y Actualizaciones */}
+        {/* COLUMNA DERECHA */}
         <div>
           <h3 className="flex items-center gap-3 text-xl font-bold text-emerald-900 mb-8 pb-4 border-b border-emerald-200">
             <BookOpen className="text-amber-600" /> Cursos y Actualizaciones
@@ -465,64 +502,77 @@ const Resume = () => (
   </section>
 );
 
-const Footer = () => (
-  <footer id="contacto" className="bg-emerald-950 text-white pt-20 pb-10">
-    <div className="container mx-auto px-6 grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16 border-b border-emerald-900/50 pb-12">
-      
-      <div className="lg:col-span-2">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="bg-amber-500 p-2 rounded text-emerald-950">
-            <Activity size={24} />
+const Footer = () => {
+  const whatsappLink = "https://wa.me/5491163657651?text=Hola%20Dra.%20Altamirano,%20quisiera%20solicitar%20un%20turno.";
+
+  return (
+    <footer id="contacto" className="bg-emerald-950 text-white pt-16 md:pt-20 pb-10">
+      <div className="container mx-auto px-6 grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16 border-b border-emerald-900/50 pb-12">
+        
+        <div className="lg:col-span-2">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="bg-amber-500 p-2 rounded text-emerald-950">
+              <Activity size={24} />
+            </div>
+            <span className="text-2xl font-serif">Dra. Noelia Altamirano</span>
           </div>
-          <span className="text-2xl font-serif">Dra. Noelia Altamirano</span>
+          <p className="text-emerald-100/60 leading-relaxed max-w-md mb-6">
+            Atención pediátrica integral con el respaldo de años de experiencia en cuidados críticos. Su tranquilidad es mi prioridad.
+          </p>
         </div>
-        <p className="text-emerald-100/60 leading-relaxed max-w-md mb-6">
-          Atención pediátrica integral con el respaldo de años de experiencia en cuidados críticos. Su tranquilidad es mi prioridad.
-        </p>
-      </div>
 
-      <div>
-        <h4 className="text-amber-500 font-bold uppercase tracking-widest text-sm mb-6">Contacto</h4>
-        <ul className="space-y-4 text-emerald-100/80">
-          <li className="flex items-center gap-3">
-             <Phone size={18} className="text-amber-500"/> {DATA.contacto.telefono}
-          </li>
-          <li className="flex items-center gap-3">
-             <Mail size={18} className="text-amber-500"/> 
-             <a href={`mailto:${DATA.contacto.email}`} className="hover:text-white transition">
-                {DATA.contacto.email}
-             </a>
-          </li>
-          <li className="flex items-start gap-3">
-             <MapPin size={18} className="text-amber-500 mt-1"/> 
-             <span>{DATA.contacto.direccion}<br/><span className="text-xs text-emerald-100/50">Consultorio Particular & Clínica del Niño</span></span>
-          </li>
-        </ul>
-      </div>
+        <div>
+          <h4 className="text-amber-500 font-bold uppercase tracking-widest text-sm mb-6">Contacto</h4>
+          <ul className="space-y-4 text-emerald-100/80">
+            <li className="flex items-center gap-3">
+              <Phone size={18} className="text-amber-500"/> 
+              <a href="tel:+5491163657651" className="hover:text-white transition">
+                {DATA.contacto.telefono}
+              </a>
+            </li>
+            <li className="flex items-center gap-3">
+              <Mail size={18} className="text-amber-500"/> 
+              <a href={`mailto:${DATA.contacto.email}`} className="hover:text-white transition">
+                  {DATA.contacto.email}
+              </a>
+            </li>
+            <li className="flex items-start gap-3">
+              <MapPin size={18} className="text-amber-500 mt-1"/> 
+              <span>{DATA.contacto.direccion}<br/><span className="text-xs text-emerald-100/50">Consultorio Particular & Clínica del Niño</span></span>
+            </li>
+          </ul>
+        </div>
 
-      <div>
-        <h4 className="text-amber-500 font-bold uppercase tracking-widest text-sm mb-6">Horarios</h4>
-        <ul className="space-y-3 text-emerald-100/80 text-sm">
-          <li className="flex justify-between border-b border-emerald-900 pb-2">
-            <span>Lunes - Viernes</span>
-            <span>Consultar</span>
-          </li>
-          <li className="flex justify-between border-b border-emerald-900 pb-2">
-            <span>Sábados</span>
-            <span>Consultar</span>
-          </li>
-        </ul>
-        <button className="w-full mt-6 bg-amber-600 hover:bg-amber-700 text-white py-3 rounded-sm font-medium transition text-sm">
-           Solicitar Turno por WhatsApp
-        </button>
+        <div>
+          <h4 className="text-amber-500 font-bold uppercase tracking-widest text-sm mb-6">Horarios</h4>
+          <ul className="space-y-3 text-emerald-100/80 text-sm">
+            <li className="flex justify-between border-b border-emerald-900 pb-2">
+              <span>Lunes - Viernes</span>
+              <span>Consultar</span>
+            </li>
+            <li className="flex justify-between border-b border-emerald-900 pb-2">
+              <span>Sábados</span>
+              <span>Consultar</span>
+            </li>
+          </ul>
+          
+          <a 
+            href={whatsappLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full mt-6 bg-amber-600 hover:bg-amber-700 text-white py-3 rounded-sm font-medium transition text-sm flex justify-center items-center gap-2"
+          >
+             Solicitar Turno por WhatsApp
+          </a>
+        </div>
       </div>
-    </div>
-    
-    <div className="text-center text-emerald-100/30 text-xs">
-      <p>&copy; {new Date().getFullYear()} Dra. Noelia Altamirano. Todos los derechos reservados.</p>
-    </div>
-  </footer>
-);
+      
+      <div className="text-center text-emerald-100/30 text-xs">
+        <p>&copy; {new Date().getFullYear()} Dra. Noelia Altamirano. Todos los derechos reservados.</p>
+      </div>
+    </footer>
+  );
+};
 
 function App() {
   return (
